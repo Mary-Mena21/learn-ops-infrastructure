@@ -1288,7 +1288,16 @@ cleanup_docker_resources() {
     while IFS= read -r img; do
       [[ -n "$img" ]] && raw_images+=("$img")
     done < <(docker images --filter "label=com.docker.compose.project=${project}" \
-               --format '{{.Repository}}:{{.Tag}}' 2>/dev/null || true)
+               --format '{{if ne .Repository "<none>"}}{{.Repository}}:{{.Tag}}{{else}}{{.ID}}{{end}}' 2>/dev/null || true)
+  done
+
+  # Also catch named volumes directly via compose label (survives container removal)
+  for project in "${projects[@]}"; do
+    while IFS= read -r vol; do
+      [[ -n "$vol" ]] && raw_volumes+=("$vol")
+    done < <(docker volume ls \
+               --filter "label=com.docker.compose.project=${project}" \
+               --format '{{.Name}}' 2>/dev/null || true)
   done
 
   # Deduplicate images and volumes (docker handles duplicates gracefully, but keep output clean)
