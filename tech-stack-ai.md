@@ -196,21 +196,3 @@ LearnOps is an education management platform built for Nashville Software School
 From a user's perspective, the platform lets instructors create and manage courses, organize students into cohorts, record assessment outcomes, leave notes on individual students, and view progress dashboards. It also integrates directly with GitHub and Slack, so activity that already happens in those tools — like repo forks and team communication — is visible and actionable inside the platform without switching contexts.
 
 The system supports two distinct roles: instructors and students. Instructors have staff-level access and interact with the full management interface — creating cohorts, scoring assessments, and tracking progress across the entire cohort. Students have a more limited view focused on their own dashboard, showing their current cohort, assessment status, and capstone information. The setup script reflects this separation by seeding the database with an instructor fixture on first run, establishing role-based access from the start.
-
-
-
-
-
-
-##TEST:
-| Config File | Location | Config Value | What it's for | How it's used |
-|---|---|---|---|---|
-| `.env` | `learn-ops-infrastructure/` | `POSTGRES_DB` | Database name | Created at boot; referenced by API |
-| `.env` | `learn-ops-infrastructure/` | `POSTGRES_USER` | DB username | Created at startup; authenticates connections |
-| `.env` | `learn-ops-infrastructure/` | `DATA_SOURCE_NAME` | Connection string | Tells postgres_exporter which DB to scrape |
-| `docker-compose.yml` | `learn-ops-infrastructure/` | `image` | Docker image version | Pins version (e.g. `postgres:16`) for consistency |
-| `docker-compose.yml` | `learn-ops-infrastructure/` | `depends_on` | Startup order | Prevents service starting before dependency is ready |
-| `docker-compose.yml` | `learn-ops-infrastructure/` | `ports` | Port mapping | Makes services reachable from host machine |
-| `prometheus.yml` | `learn-ops-infrastructure/` | `scrape_interval` | Poll frequency | Fetches metrics from targets every 15s |
-| `prometheus.yml` | `learn-ops-infrastructure/` | `metrics_path` | Metrics endpoint | Path Prometheus hits on the API |
-| `prometheus.yml` | `learn-ops-infrastructure/` | `targets` | Service addresses | Points Prometheus at `api:8000` and `postgres_exporter:9187` |
