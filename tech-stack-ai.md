@@ -6,193 +6,86 @@
 
 | Config File | Location | Config Value | What it's for | How it's used |
 |---|---|---|---|---|
-┌────────────────────┬───────────────────────────┬──────────────────┬───────────────────┬────────────────────────────────────┐
-│    Config File     │         Location          │   Config Value   │   What it's for   │           How it's used            │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Name of the       │ Created at first boot; referenced  │
-│ .env               │ learn-ops-infrastructure/ │ POSTGRES_DB      │ PostgreSQL        │ by the API and postgres_exporter   │
-│                    │                           │                  │ database          │                                    │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│ .env               │ learn-ops-infrastructure/ │ POSTGRES_USER    │ Database username │ Created by PostgreSQL at startup;  │
-│                    │                           │                  │                   │ used to authenticate connections   │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Full connection   │ Read by postgres_exporter to know  │
-│ .env               │ learn-ops-infrastructure/ │ DATA_SOURCE_NAME │ string for the    │ which PostgreSQL instance to       │
-│                    │                           │                  │ metrics exporter  │ scrape                             │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Name of the       │ Created at first boot; referenced  │
-│ .env               │ learn-ops-infrastructure/ │ POSTGRES_DB      │ PostgreSQL        │ by the API and postgres_exporter   │
-│                    │                           │                  │ database          │                                    │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│ .env               │ learn-ops-infrastructure/ │ POSTGRES_USER    │ Database username │ Created by PostgreSQL at startup;  │
-│                    │                           │                  │                   │ used to authenticate connections   │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Full connection   │ Read by postgres_exporter to know  │
-│ .env               │ learn-ops-infrastructure/ │ DATA_SOURCE_NAME │ string for the    │ which PostgreSQL instance to       │
-│                    │                           │                  │ metrics exporter  │ scrape                             │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Docker image and  │ Pinning a version (e.g.            │
-│ docker-compose.yml │ learn-ops-infrastructure/ │ image            │ version per       │ postgres:16) ensures consistent    │
-│                    │                           │                  │ service           │ software across machines           │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│ docker-compose.yml │ learn-ops-infrastructure/ │ depends_on       │ Startup order     │ Prevents a service starting before │
-│                    │                           │                  │ between services  │  its dependency is ready           │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Maps host ports   │ Makes services reachable from the  │
-│ docker-compose.yml │ learn-ops-infrastructure/ │ ports            │ to container      │ developer's machine                │
-│                    │                           │                  │ ports             │                                    │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Mounts storage    │ Persists data across restarts;     │
-│ docker-compose.yml │ learn-ops-infrastructure/ │ volumes          │ into containers   │ syncs local source code into       │
-│                    │                           │                  │                   │ containers                         │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ How often         │ Fires an HTTP request to every     │
-│ prometheus.yml     │ learn-ops-infrastructure/ │ scrape_interval  │ Prometheus polls  │ target every 15 seconds            │
-│                    │                           │                  │ each target       │                                    │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ URL path          │ Set to /metrics/metrics to match   │
-│ prometheus.yml     │ learn-ops-infrastructure/ │ metrics_path     │ Prometheus hits   │ the path django-prometheus exposes │
-│                    │                           │                  │ on each target    │                                    │
-├────────────────────┼───────────────────────────┼──────────────────┼───────────────────┼────────────────────────────────────┤
-│                    │                           │                  │ Addresses of      │ Points Prometheus at api:8000 and  │
-│ prometheus.yml     │ learn-ops-infrastructure/ │ targets          │ services to       │ postgres_exporter:9187             │
-│                    │                           │                  │ monitor           │                                    │
-└────────────────────┴───────────────────────────┴──────────────────┴───────────────────┴────────────────────────────────────┘
+| .env | learn-ops-infrastructure/ | POSTGRES_DB | Name of the PostgreSQL database | Set at first boot; referenced by the API and postgres_exporter to target the correct database |
+| .env | learn-ops-infrastructure/ | POSTGRES_USER | Database login username | Created by PostgreSQL at startup; used to authenticate all service connections |
+| .env | learn-ops-infrastructure/ | POSTGRES_PASSWORD | Database login password | Used alongside POSTGRES_USER to authenticate connections from the API and exporter |
+| .env | learn-ops-infrastructure/ | DATA_SOURCE_NAME | Full connection string for the metrics exporter | Read by postgres_exporter to know which PostgreSQL instance to connect to and scrape |
+| docker-compose.yml | learn-ops-infrastructure/ | image | Docker image and version per service | Pins a specific version (e.g. postgres:16) to ensure consistent software across machines |
+| docker-compose.yml | learn-ops-infrastructure/ | depends_on | Startup ordering between services | Prevents a service from starting before its dependency is ready or healthy |
+| docker-compose.yml | learn-ops-infrastructure/ | ports | Host-to-container port mappings | Exposes services on localhost so a developer can reach them from outside Docker |
+| docker-compose.yml | learn-ops-infrastructure/ | volumes | Storage mounts into containers | Persists database data across restarts and syncs local source code into containers |
+| prometheus.yml | learn-ops-infrastructure/ | scrape_interval | How often Prometheus polls each target | Fires an HTTP request to every scrape target every 15 seconds |
+| prometheus.yml | learn-ops-infrastructure/ | metrics_path | URL path Prometheus hits on each target | Set to /metrics/metrics to match the path that django-prometheus exposes |
+| prometheus.yml | learn-ops-infrastructure/ | targets | Addresses of services to monitor | Points Prometheus at api:8000 for Django metrics and postgres_exporter:9187 for database metrics |
 
 ### 1b. How to Start It
-| Command | What it does | When to use it |
-|---|---|---|
-┌─────────────────┬───────────────────────────────────────────────────────────┬──────────────────────────────────────────────┐
-│     Command     │                       What it does                        │                When to use it                │
-├─────────────────┼───────────────────────────────────────────────────────────┼──────────────────────────────────────────────┤
-│                 │ Runs the first-time setup wizard — clones repos, collects │ The very first time you set up the project   │
-│ make setup      │  secrets, writes .env files, and optionally starts the    │ on a new machine                             │
-│                 │ stack                                                     │                                              │
-├─────────────────┼───────────────────────────────────────────────────────────┼──────────────────────────────────────────────┤
-│ make up         │ Builds and starts all services in detached mode           │ When you want the full stack running — API,  │
-│                 │                                                           │ client, database, Prometheus, and Grafana    │
-├─────────────────┼───────────────────────────────────────────────────────────┼──────────────────────────────────────────────┤
-│ make up-api     │ Builds and starts only the api service                    │ When working on backend code only and the    │
-│                 │                                                           │ React client is not needed                   │
-├─────────────────┼───────────────────────────────────────────────────────────┼──────────────────────────────────────────────┤
-│ make            │ Builds and starts only the api and client services        │ When working on the frontend and need the    │
-│ up-client-api   │                                                           │ API responding but not the monitoring stack  │
-├─────────────────┼───────────────────────────────────────────────────────────┼──────────────────────────────────────────────┤
-│ make restart    │ Stops all containers then rebuilds and starts everything  │ When a config or Dockerfile change isn't     │
-│                 │                                                           │ being picked up and you need a clean rebuild │
-└─────────────────┴───────────────────────────────────────────────────────────┴──────────────────────────────────────────────┘
+
+**make setup** — Runs the first-time setup wizard (scripts/setup.sh). Clones sibling repos, collects secrets, writes .env files, seeds the database fixture, and optionally starts the full stack. Use this the very first time on a new machine.
+
+**make up** — Builds images and starts all services (database, api, client, prometheus, grafana, postgres_exporter) in detached mode. Use this when you want the complete stack running.
+
+**make up-api** — Builds and starts only the api service (the database must already be running or will start as a dependency). Use when working on backend code only and the React client is not needed.
+
+**make up-client-api** — Builds and starts both the api and client services. Use when working on the frontend and you need the API responding but do not need the monitoring stack (Prometheus and Grafana).
+
+**make restart** — Stops all containers, then rebuilds and starts everything again. Use when a config change or Dockerfile edit is not being picked up and you need a clean rebuild.
+
+The `up*` targets differ in scope: `make up` brings the entire stack online including monitoring, `make up-client-api` limits startup to the application tier (api + client), and `make up-api` goes even narrower to the backend alone. All three rebuild images before starting. `make setup`, by contrast, is not a compose command — it is a one-time machine provisioning wizard that installs prerequisites, clones repos, and writes configuration before any containers are involved.
 
 ### 1c. Where to Access It
 
 | Service | Port | URL |
 |---|---|---|
-┌─────────────────────┬──────┬────────────────────────────────────────────────────┐
-│       Service       │ Port │                        URL                         │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ database (Postgres) │ 5432 │ postgresql://localhost:5432                        │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ api (Django)        │ 8000 │ http://localhost:8000                              │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ api (debugger)      │ 5678 │ localhost:5678 (debugpy attach, not a browser URL) │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ client (React)      │ 3000 │ http://localhost:3000                              │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ prometheus          │ 9090 │ http://localhost:9090                              │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ grafana             │ 3001 │ http://localhost:3001                              │
-├─────────────────────┼──────┼────────────────────────────────────────────────────┤
-│ postgres_exporter   │ 9187 │ http://localhost:9187/metrics                      │
-└─────────────────────┴──────┴────────────────────────────────────────────────────┘
+| database (Postgres) | 5432 | postgresql://localhost:5432 |
+| api (Django) | 8000 | http://localhost:8000 |
+| api (debugger) | 5678 | localhost:5678 (debugpy attach — not a browser URL) |
+| client (React) | 3000 | http://localhost:3000 |
+| prometheus | 9090 | http://localhost:9090 |
+| grafana | 3001 | http://localhost:3001 |
+| postgres_exporter | 9187 | http://localhost:9187/metrics |
 
 ### 1d. Service Dependencies
 
 | Service | Depends On | Why |
 |---|---|---|
-┌───────────────────┬───────────────────┬──────────────────────────────────────────────────────────────────────────┐
-│      Service      │    Depends On     │                                   Why                                    │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│ api               │ database          │ Django runs migrations and opens a connection pool at startup; if        │
-│                   │                   │ Postgres is not ready, the API process crashes immediately               │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│                   │                   │ Prometheus's django scrape job targets api:8000/metrics/metrics; if the  │
-│ prometheus        │ api               │ API is not up, that job returns connection errors and no application     │
-│                   │                   │ metrics are collected                                                    │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│ grafana           │ prometheus        │ Grafana queries Prometheus as its data source; without Prometheus        │
-│                   │                   │ running, every dashboard panel shows "no data"                           │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│ postgres_exporter │ database          │ The exporter connects to Postgres using DATA_SOURCE_NAME; without the    │
-│                   │                   │ database it cannot authenticate and exports nothing                      │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│ prometheus        │ postgres_exporter │ Prometheus's postgresql scrape job targets postgres_exporter:9187; if    │
-│                   │                   │ the exporter is not running, all database-level metrics are missing      │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│ client            │ api               │ The React frontend makes HTTP requests to the Django API for all         │
-│                   │                   │ apPI every data-fetching page fails                                      │
-├───────────────────┼───────────────────┼──────────────────────────────────────────────────────────────────────────┤
-│                   │ database          │ Aloriginate from the database via                                        │
-│ grafana           │ (inferred)        │ postgres_exporter → prometheus; no database means no meaningful data in  │
-│                   │                   │ any dashboard                                                            │
-└───────────────────┴───────────────────┴──────────────────────────────────────────────────────────────────────────┘
+| api | database | Django runs migrations and opens a connection pool at startup; if Postgres is not healthy the API process crashes immediately |
+| prometheus | api | Prometheus's django scrape job targets api:8000/metrics/metrics; if the API is down that job returns connection errors and no application metrics are collected |
+| prometheus | postgres_exporter | Prometheus's postgresql scrape job targets postgres_exporter:9187; if the exporter is not running all database-level metrics are missing |
+| grafana | prometheus | Grafana queries Prometheus as its data source; without Prometheus running every dashboard panel shows "no data" |
+| postgres_exporter | database | The exporter connects to Postgres using DATA_SOURCE_NAME; without the database it cannot authenticate and exports nothing |
+| client | api (inferred) | The React frontend makes HTTP requests to the Django API for all data; if the API is down every data-fetching page fails with a network error |
 
 ### 1e. Main Entry Points
 
 | Service | Startup File | Routes / URL Config File |
 |---|---|---|
-┌───────────────────┬───────────────────────────────┬──────────────────────────────────────────────────────────────┐
-│      Service      │         Startup File          │                   Routes / URL Config File                   │
-├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
-│ api (Django)      │ learn-ops-api/manage.py       │ learn-ops-api/LearningPlatform/urls.py                       │
-├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
-│ client (React)    │ learn-ops-client/src/index.js │ learn-ops-client/src/components/ApplicationViews.js          │
-├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
-│ database          │ N/A (managed by Docker image) │ N/A (no HTTP routes; accepts TCP connections on port 5432)   │
-│ (Postgres)        │                               │                                                              │
-├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
-│ prometheus        │ N/A (managed by Docker image) │ learn-ops-infrastructure/prometheus.yml (scrape targets, not │
-│                   │                               │  HTTP routes)                                                │
-├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
-│ grafana           │ N/A (managed by Docker image) │ N/A (routing is internal to the Grafana binary)              │
-├───────────────────┼───────────────────────────────┼──────────────────────────────────────────────────────────────┤
-│ postgres_exporter │ N/A (managed by Docker image) │ N/A (exposes a single fixed endpoint /metrics on port 9187)  │
-└───────────────────┴───────────────────────────────┴──────────────────────────────────────────────────────────────┘
+| api (Django) | learn-ops-api/manage.py | learn-ops-api/LearningPlatform/urls.py |
+| client (React) | learn-ops-client/src/index.js | learn-ops-client/src/components/ApplicationViews.js |
+| database (Postgres) | N/A (managed by Docker image) | N/A (no HTTP routes; accepts TCP connections on port 5432) |
+| prometheus | N/A (managed by Docker image) | learn-ops-infrastructure/prometheus.yml (defines scrape targets, not HTTP routes) |
+| grafana | N/A (managed by Docker image) | N/A (routing is internal to the Grafana binary) |
+| postgres_exporter | N/A (managed by Docker image) | N/A (exposes a single fixed endpoint /metrics on port 9187) |
 
 ## 2. Services
 
 | Service Name | Tech Stack (including version) | Purpose |
 |---|---|---|
-┌─────────────────────┬──────────────────────────────────────────────────────┬──────────────────────────────────────┐
-│       Service       │                      Tech Stack                      │               Purpose                │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ api                 │ Django (Python)                                      │ REST API backend                     │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ client              │ React (JavaScript)                                   │ Web frontend                         │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ database            │ PostgreSQL 16                                        │ Primary data store                   │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ prometheus          │ prom/prometheus:latest                               │ Scrapes and stores metrics           │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ grafana             │ grafana/grafana:latest                               │ Visualizes metrics as dashboards     │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ postgres_exporter   │ quay.io/prometheuscommunity/postgres-exporter:latest │ Exposes Postgres metrics for         │
-│                     │                                                      │ Prometheus                           │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ Valkey (planned)    │ Valkey broker                                        │ Routes messages between services     │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ Monarch (planned)   │ Python                                               │ Handles GitHub and Slack background  │
-│                     │                                                      │ tasks                                │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ Hashtagger          │ TBD                                                  │ Processes Slack hashtag events       │
-│ (planned)           │                                                      │                                      │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ GitHub API          │ External                                             │ Student repo and org membership data │
-├─────────────────────┼──────────────────────────────────────────────────────┼──────────────────────────────────────┤
-│ Slack API           │ External                                             │ Messaging and workspace integration  │
-└─────────────────────┴──────────────────────────────────────────────────────┴──────────────────────────────────────┘
+| database | postgres:16 | Primary relational data store for all platform data |
+| api | Django REST Framework (Python) — separate repo | REST API backend; handles all business logic, authentication, and data access |
+| client | React (JavaScript) — separate repo | Browser-based web frontend; the UI instructors and students interact with |
+| prometheus | prom/prometheus:latest | Scrapes and stores time-series metrics from the API and database exporter |
+| grafana | grafana/grafana:latest | Visualizes Prometheus metrics as dashboards for observability |
+| postgres_exporter | quay.io/prometheuscommunity/postgres-exporter:latest | Translates Postgres internal stats into a Prometheus-compatible metrics endpoint |
+| Valkey (planned) | Valkey message broker | Routes async messages between the API and background worker services |
+| Monarch (planned) | Python — separate repo (service-monarch) | Background worker that handles GitHub and Slack integration tasks |
+| Hashtagger (planned) | TBD | Processes Slack hashtag events for the platform |
+| GitHub API | External service | Provides student repository and org membership data |
+| Slack API | External service | Provides workspace messaging and notification integration |
 
 ## 3. System Overview
-LearnOps is an education management platform built for Nashville Software School. It solves the problem of tracking student progress across a structured software development curriculum — giving instructors a central place to manage cohorts, record assessment results, and monitor where each student stands instead of relying on spreadsheets or disconnected tools.
 
-From a user's perspective, the platform lets instructors create and manage courses, organize students into cohorts, record assessment outcomes, leave notes on individual students, and view progress dashboards. It also integrates directly with GitHub and Slack, so activity that already happens in those tools — like repo forks and team communication — is visible and actionable inside the platform without switching contexts.
+LearnOps is an education management platform built for Nashville Software School. It solves the problem of tracking student progress across a structured software development curriculum, giving instructors a single place to manage cohorts, record assessment results, and monitor where each student stands — replacing spreadsheets and disconnected tools with a purpose-built system.
 
-The system supports two distinct roles: instructors and students. Instructors have staff-level access and interact with the full management interface — creating cohorts, scoring assessments, and tracking progress across the entire cohort. Students have a more limited view focused on their own dashboard, showing their current cohort, assessment status, and capstone information. The setup script reflects this separation by seeding the database with an instructor fixture on first run, establishing role-based access from the start.
+From a user's perspective, the platform lets instructors create and organize courses, assign students to cohorts, record and review assessment outcomes, leave notes on individual students, and view progress dashboards at a glance. It also integrates directly with GitHub and Slack, so activity that already happens in those tools — such as repository forks, team membership, and workspace communication — is visible and actionable inside the platform without switching contexts.
+
+The system is designed for two distinct roles: instructors and students. Instructors have staff-level access and interact with the full management interface — creating cohorts, scoring assessments, and tracking progress across the entire group. Students have a more limited view focused on their own dashboard, showing their current cohort, assessment status, and capstone information. The setup wizard reflects this separation by seeding the database with an instructor fixture on first run, establishing role-based access from the start.
