@@ -36,3 +36,5 @@ Base this on README.md, SETUP_README.md, and the docker-compose.yml service defi
 
 ### Table Form
  Reformat your previous answer as a markdown table with these exact columns: [col1], [col2], [col3]. Do not add any introductory text—just the table.
+
+ Each table row must be exactly one line with no line breaks inside cells. Use <br> if a cell needs multiple lines. Keep descriptions under 10 words when possible. Record only the config variable name, never the actual secret value.
