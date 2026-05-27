@@ -20,6 +20,7 @@
 
 ### 1b. How to Start It
 
+<<<<<<< HEAD
 **make setup**
 What it does: Runs `scripts/setup.sh`, an interactive first-time wizard that clones the sibling repos (`learn-ops-api`, `learn-ops-client`, `service-monarch`), collects secrets (GitHub PAT, Slack token, Django secret key), writes all `.env` files from templates, seeds the instructor database fixture, and optionally starts the full stack.
 When to use it: The very first time you set up the project on a new machine. It is idempotent — re-running it skips steps that are already complete.
@@ -41,6 +42,19 @@ What it does: Runs `docker compose down` followed by `docker compose up --build 
 When to use it: When a configuration or Dockerfile change is not being picked up by a running container and you need a clean rebuild.
 
 The three `up*` targets differ only in scope: `make up` starts every service including the monitoring stack, `make up-client-api` narrows that to the application tier (api + client), and `make up-api` narrows it further to the backend alone. All three pass `--build` so images are always rebuilt before starting. `make restart` does the same full rebuild as `make up` but first tears down whatever is already running. `make setup`, by contrast, is not a Docker Compose command at all — it is a one-time machine provisioning wizard that runs before any containers exist, installing prerequisites, cloning repos, and writing the `.env` files that the `up*` targets depend on.
+=======
+**make setup** — Runs the first-time setup wizard (scripts/setup.sh). Clones sibling repos, collects secrets, writes .env files, seeds the database fixture, and optionally starts the full stack. Use this the very first time on a new machine.
+
+**make up** — Builds images and starts all services (database, api, client, prometheus, grafana, postgres_exporter) in detached mode. Use this when you want the complete stack running.
+
+**make up-api** — Builds and starts only the api service (the database must already be running or will start as a dependency). Use when working on backend code only and the React client is not needed.
+
+**make up-client-api** — Builds and starts both the api and client services. Use when working on the frontend and you need the API responding but do not need the monitoring stack (Prometheus and Grafana).
+
+**make restart** — Stops all containers, then rebuilds and starts everything again. Use when a config change or Dockerfile edit is not being picked up and you need a clean rebuild.
+
+The `up*` targets differ in scope: `make up` brings the entire stack online including monitoring, `make up-client-api` limits startup to the application tier (api + client), and `make up-api` goes even narrower to the backend alone. All three rebuild images before starting. `make setup`, by contrast, is not a compose command — it is a one-time machine provisioning wizard that installs prerequisites, clones repos, and writes configuration before any containers are involved.
+>>>>>>> 7c3421049ead90dc3916896b9cd0ce0259f49bee
 
 ### 1c. Where to Access It
 
