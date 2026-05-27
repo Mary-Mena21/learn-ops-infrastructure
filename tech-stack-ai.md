@@ -20,15 +20,27 @@
 
 ### 1b. How to Start It
 
-| Command | What it does | When to use it |
-|---|---|---|
-| make setup | Runs scripts/setup.sh — clones sibling repos, collects secrets, writes .env files, seeds the instructor fixture, and optionally starts the stack | The very first time on a new machine; re-running it is safe, it skips steps already complete |
-| make up | Builds and starts all services (database, api, client, prometheus, grafana, postgres_exporter) in detached mode | When you want the full stack running including the monitoring layer |
-| make up-api | Builds and starts only the api service in detached mode | When working on backend code only and neither the React client nor monitoring is needed |
-| make up-client-api | Builds and starts only the api and client services in detached mode | When working on the frontend and you need the API responding but not Prometheus or Grafana |
-| make restart | Stops all containers, then rebuilds and starts all services again | When a config or Dockerfile change is not being picked up and you need a clean rebuild |
+**make setup**
+What it does: Runs `scripts/setup.sh`, an interactive first-time wizard that clones the sibling repos (`learn-ops-api`, `learn-ops-client`, `service-monarch`), collects secrets (GitHub PAT, Slack token, Django secret key), writes all `.env` files from templates, seeds the instructor database fixture, and optionally starts the full stack.
+When to use it: The very first time you set up the project on a new machine. It is idempotent — re-running it skips steps that are already complete.
 
-The three `up*` targets differ only in scope: `make up` brings the entire stack online including monitoring, `make up-client-api` narrows that to the application tier (api + client), and `make up-api` narrows it further to the backend alone. All three pass `--build` so images are always rebuilt before starting. `make restart` does the same full rebuild as `make up` but tears down whatever is already running first. `make setup` is in a different category entirely — it is not a Docker Compose command but a one-time machine provisioning wizard that runs before any containers exist, cloning repos and writing the `.env` files that the `up*` targets depend on.
+**make up**
+What it does: Runs `docker compose up --build -d` for all services — database, api, client, prometheus, grafana, and postgres_exporter — rebuilding images before starting, in detached mode.
+When to use it: When you want the complete stack running, including the monitoring layer (Prometheus and Grafana).
+
+**make up-api**
+What it does: Runs `docker compose up --build -d api`, rebuilding and starting only the api service in detached mode.
+When to use it: When you are working on backend code only and do not need the React client or the monitoring stack.
+
+**make up-client-api**
+What it does: Runs `docker compose up --build -d api client`, rebuilding and starting only the api and client services in detached mode.
+When to use it: When you are working on the frontend and need the API responding, but do not need Prometheus or Grafana running.
+
+**make restart**
+What it does: Runs `docker compose down` followed by `docker compose up --build -d` — a full stop, rebuild, and restart of all services.
+When to use it: When a configuration or Dockerfile change is not being picked up by a running container and you need a clean rebuild.
+
+The three `up*` targets differ only in scope: `make up` starts every service including the monitoring stack, `make up-client-api` narrows that to the application tier (api + client), and `make up-api` narrows it further to the backend alone. All three pass `--build` so images are always rebuilt before starting. `make restart` does the same full rebuild as `make up` but first tears down whatever is already running. `make setup`, by contrast, is not a Docker Compose command at all — it is a one-time machine provisioning wizard that runs before any containers exist, installing prerequisites, cloning repos, and writing the `.env` files that the `up*` targets depend on.
 
 ### 1c. Where to Access It
 
