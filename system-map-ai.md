@@ -60,24 +60,24 @@ graph LR
 ## System Diagram Mermaid style
 
 ```mermaid
-graph TB
+graph LR
     subgraph Frontend["Frontend Layer"]
-        direction LR
+        direction TB
         CLIENT["🖥️ Client<br/>React<br/>Port 3000"]
     end
 
     subgraph Application["Application Layer"]
-        direction LR
+        direction TB
         API["⚙️ API<br/>Django<br/>Port 8000"]
     end
 
     subgraph Data["Data Layer"]
-        direction LR
+        direction TB
         DB["🗄️ Database<br/>PostgreSQL 16<br/>Port 5432"]
     end
 
     subgraph Monitoring["Monitoring Stack"]
-        direction LR
+        direction TB
         PROM["📊 Prometheus<br/>Port 9090"]
         GRAF["📈 Grafana<br/>Port 3001"]
         PGEXP["🔌 PG Exporter<br/>Port 9187"]
@@ -90,10 +90,11 @@ graph TB
     PGEXP -->|Scrape| PROM
     PROM -->|PromQL| GRAF
 
-    style CLIENT fill:#dbeafe,stroke:#3b82f6,stroke-width:3px,color:#1e3a5f
-    style API fill:#dcfce7,stroke:#22c55e,stroke-width:3px,color:#14532d
-    style DB fill:#fef9c3,stroke:#eab308,stroke-width:3px,color:#713f12
-    style PROM fill:#f3e8ff,stroke:#a855f7,stroke-width:3px,color:#3b0764
-    style GRAF fill:#fce7f3,stroke:#ec4899,stroke-width:3px,color:#831843
-    style PGEXP fill:#e0f2fe,stroke:#0ea5e9,stroke-width:3px,color:#0c4a6e
+    style CLIENT fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    style API fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    style DB fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+    style PROM fill:#f3e8ff,stroke:#7b1fa2,stroke-width:2px
+    style GRAF fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    style PGEXP fill:#e0f7fa,stroke:#00838f,stroke-width:2px
 ```
+
