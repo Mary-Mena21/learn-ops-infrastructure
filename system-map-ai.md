@@ -1,6 +1,6 @@
 # System Map (AI)
 
-## 1. System Diagram
+## 1. System Diagram v1
 ```mermaid
 graph LR
     Client["React Client :3000"]
@@ -32,4 +32,23 @@ graph LR
     Prometheus -->|"HTTP PromQL :9090"| Grafana
     Nginx -->|"HTTP :8000"| API
     Nginx -->|"static files"| Client
-    ```
+```
+
+## 1. System Diagram v2
+```mermaid
+graph LR
+    api[Django API :8000]
+    database[PostgreSQL :5432]
+    prometheus[Prometheus :9090]
+    grafana[Grafana :3001]
+    postgres_exporter[PG Exporter :9187]
+    valkey[Valkey :6379]
+    valkey_monitor[valkey-cli monitor]
+    client[React Client :3000]
+
+    api -->|SQL TCP 5432| database
+    postgres_exporter -->|SQL TCP 5432| database
+    prometheus -->|HTTP scrape 8000| api
+    grafana -->|HTTP PromQL 9090| prometheus
+    valkey_monitor -->|Redis CLI 6379| valkey
+```
