@@ -169,3 +169,24 @@ Output only the Mermaid code block.
         ├── prometheus waits for api
         ├── grafana waits for prometheus
         └── postgres_exporter waits for database
+
+##
+
+## System Diagram Mermaid style
+
+Convert the system diagram to Mermaid. Use graph TB (top-to-bottom layout).
+
+STYLING RULES:
+- Group services into subgraphs: "Frontend Layer", "Application Layer", "Data Layer", "Monitoring Stack"
+- Use emojis in node labels: 🖥️ Client, ⚙️ API, 🗄️ Database, 📊 Prometheus, 📈 Grafana, 🔌 Postgres Exporter
+- Each node shows: emoji + service name + framework + port on separate lines using <br/>
+- Use short edge labels: "HTTP REST", "SQL Query", "Metrics Scrape", "PromQL Query"
+- Add style declarations for each node with:
+  - fill: light background color
+  - stroke: darker border color  
+  - stroke-width: 3px
+  - color: dark text color
+- Use direction LR inside each subgraph so nodes sit side-by-side
+- Keep arrows straight and flowing downward — no crossing lines
+
+Output only the Mermaid code block.
