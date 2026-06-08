@@ -58,7 +58,7 @@ A serializer is a translator between your Python code and JSON
 
 ## 10. What replaces the Templates and why?
 
-React replaces Django templates because the frontend now runs in the browser, not on the server. Django only sends JSON data through the API.
+* React replaces Django templates because the frontend now runs in the browser, not on the server. Django only sends JSON data through the API.
 -----------------------------------------------------
 
 packages
@@ -66,25 +66,24 @@ modules
 layers
 
 ## Step 1: Explore the learn-ops-api (Django) projects organization
- Find answers to these questions using Django/python docs, make sure to use the versions you identified earlier in the course:
+ ## Find answers to these questions using Django/python docs, make sure to use the versions you identified earlier in the course:
 
-# 1- List top level directories at the root of learn-ops-api. For each folder, explain what purpose it serves in this project.
+## 1- List top level directories at the root of learn-ops-api. For each folder, explain what purpose it serves in this project.
 
-# 2- List top level directories inside learn-ops-api/LearningAPI. For each folder, explain what responsibility it owns.
+## 2- List top level directories inside learn-ops-api/LearningAPI. For each folder, explain what responsibility it owns.
 
-# 3- Open Pipfile. Why does this file exist? What is it's purpose?
+## 3- Open Pipfile. Why does this file exist? What is it's purpose?
 
-# 4- Look up django, djangorestframework, and django-allauth in the Pipfile. For each: what functonality does it provide. Why does the project import it?
+## 4- Look up django, djangorestframework, and django-allauth in the Pipfile. For each: what functonality does it provide. Why does the project import it?
 
-# 5- Open LearningAPI/decorators.py. What is a decorator and how is it used?
+## 5- Open LearningAPI/decorators.py. What is a decorator and how is it used?
 
-# 6- Open LearningAPI/serializers.py. What do serializers do? Why does a Django REST API need serializers at all? Explain how it fits into the request response cycle.
+## 6- Open LearningAPI/serializers.py. What do serializers do? Why does a Django REST API need serializers at all? Explain how it fits into the request response cycle.
 
-# 7- Open the models folder inside LearningAPI. What is a Model? Why does it exist? Pick one model and answer what real-world thing it represents and why the API needs to track that data.
+## 7- Open the models folder inside LearningAPI. What is a Model? Why does it exist? Pick one model and answer what real-world thing it represents and why the API needs to track that data.
 
-# 8- In Django, a view handles one URL and a viewset handles a full set of routes for a resource. Find one example of each: why would you choose a viewset over a plain view?
+## 8- In Django, a view handles one URL and a viewset handles a full set of routes for a resource. Find one example of each: why would you choose a viewset over a plain view?
 
-# 9- Pick a serializer and find the model it belongs to. Explain how this serializer is used and what functionality it's providing.
+## 9- Pick a serializer and find the model it belongs to. Explain how this serializer is used and what functionality it's providing.
 
-# 10- Django's pattern is Model-Template-View. This project does not have HTML templates. What takes the template's job here, and why does that make sense for this app?
-app.diagram.net
+## 10- Django's pattern is Model-Template-View. This project does not have HTML templates. What takes the template's job here, and why does that make sense for this app?
