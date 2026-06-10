@@ -47,6 +47,13 @@
 │                   │ expects a dedicated directory.                 │
 └───────────────────┴────────────────────────────────────────────────┘
 
+
+## 2. Folders inside `LearningAPI`
+
+| Folder | What responsibility does it own and why? |
+|--------|------------------------------------------|
+|        |                                          |
+
 2. Directories inside LearningAPI
 
 Folder: models/
@@ -80,12 +87,6 @@ What responsibility does it own?: Holds JSON seed data files, one per
 Folder: tests/
 What responsibility does it own?: Contains all automated tests. Kept here
   so Django's test runner can discover them automatically.
-
-## 2. Folders inside `LearningAPI`
-
-| Folder | What responsibility does it own and why? |
-|--------|------------------------------------------|
-|        |                                          |
 
 ## 3. What is the Pipfile?
 
