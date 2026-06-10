@@ -3,15 +3,16 @@
 ## 1. Top-level folders in `learn-ops-api`
 
 | Folder            | Why does this folder need to exist? |
-|-------------------|-------------------------------------|
+|-------------------|------------------------------------------|
+|                   |                                          |
 |LearningAPI/       │The main Django app. All business logic,database models, API endpoints, and tests live here.|
 |LearningPlatform/  │The Django project package. Holds settings, the root URL config, and the WSGI/ASGI entry points that boot the server.|
 |LogViewer/         │A separate Django app that serves the log-browsing web UI. Kept apart from LearningAPI/ because it has a different responsibility.|
 |config/            │Nginx reverse proxy configs for production.Needed so the server knows how to route traffic to the API and serve the built React  frontend.|
 |logs/              │Receives runtime log output written by the application process. Exists so logs are written to a known, persistent location outside the source tree.|
 |static/            │Source static asset files before collection. Django requires a source directory to copy from. |
-|staticfiles/       │Output of collectstatic. This is what Nginx actually serves in production. Kept separate so the web server never needs to touch the source directory.|
-|templates/         │Django HTML templates for any server-rendered pages (e.g. the log viewer UI). Separated from Python code because Django's template loader expects a dedicated directory.│
+|staticfiles/       │Output of collectstatic. This is what Nginx actually serves in production. Kept separate so the web server never needs to touch the source directory|
+|templates/         |Django HTML templates for any server-rendered pages (e.g. the log viewer UI). Separated from Python code because Django's template loader expects a dedicated directory.│
 
 
 
