@@ -4,89 +4,33 @@
 
 | Folder            | Why does this folder need to exist? |
 |-------------------|-------------------------------------|
-|                   |                                         │
-│                   │                                         |
-┌───────────────────┬────────────────────────────────────────────────┐
-│      Folder       │      Why does this folder need to exist?       │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ The main Django app. All business logic,       │
-│ LearningAPI/      │ database models, API endpoints, and tests live │
-│                   │  here.                                         │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ The Django project package. Holds settings,    │
-│ LearningPlatform/ │ the root URL config, and the WSGI/ASGI entry   │
-│                   │ points that boot the server.                   │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ A separate Django app that serves the          │
-│ LogViewer/        │ log-browsing web UI. Kept apart from           │
-│                   │ LearningAPI/ because it has a different        │
-│                   │ responsibility.                                │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ Nginx reverse proxy configs for production.    │
-│ config/           │ Needed so the server knows how to route        │
-│                   │ traffic to the API and serve the built React   │
-│                   │ frontend.                                      │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ Receives runtime log output written by the     │
-│ logs/             │ application process. Exists so logs are        │
-│                   │ written to a known, persistent location        │
-│                   │ outside the source tree.                       │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ Source static asset files before collection.   │
-│ static/           │ Django requires a source directory to copy     │
-│                   │ from.                                          │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ Output of collectstatic. This is what Nginx    │
-│ staticfiles/      │ actually serves in production. Kept separate   │
-│                   │ so the web server never needs to touch the     │
-│                   │ source directory.                              │
-├───────────────────┼────────────────────────────────────────────────┤
-│                   │ Django HTML templates for any server-rendered  │
-│ templates/        │ pages (e.g. the log viewer UI). Separated from │
-│                   │  Python code because Django's template loader  │
-│                   │ expects a dedicated directory.                 │
-└───────────────────┴────────────────────────────────────────────────┘
+|LearningAPI/       │ The main Django app. All business logic,database models, API endpoints, and tests live here.|
+|LearningPlatform/  │ The Django project package. Holds settings, the root URL config, and the WSGI/ASGI entry points that boot the server.|
+|LogViewer/         │ A separate Django app that serves the log-browsing web UI. Kept apart from LearningAPI/ because it has a different responsibility.|
+|config/            │ Nginx reverse proxy configs for production.Needed so the server knows how to route traffic to the API and serve the built React  frontend.|
+|logs/              │ Receives runtime log output written by the application process. Exists so logs are written to a known, persistent location outside the source tree.|
+|static/            │ Source static asset files before collection. Django requires a source directory to copy from. |
+|staticfiles/       │ Output of collectstatic. This is what Nginx actually serves in production. Kept separate so the web server never needs to touch the source directory.|
+|templates/         │ Django HTML templates for any server-rendered pages (e.g. the log viewer UI). Separated from Python code because Django's template loader expects a dedicated directory.│
+
 
 
 ## 2. Folders inside `LearningAPI`
 
-| Folder | What responsibility does it own and why? |
-|--------|------------------------------------------|
-|        |                                          |
+| Folder      | What responsibility does it own and why? |
+|-------------|------------------------------------------|
+|             |                                          |
+|models/      |Defines the database schema. Split into three sub-packages — people/ (users, cohorts, teams, assessments), coursework/ (courses, books, projects, capstones), and skill/(learning records, core skills, weights) — so related tables are grouped by domain instead of piled into one file.|
 
-2. Directories inside LearningAPI
+|views/       |What responsibility dAPI endpoint handler, one file per resource. Also contains sub-folders for GitHub OAuth and GitHub integration logic.|
 
-Folder: models/
-What responsibility does it own?: Defines the database schema. Split into
-  three sub-packages — people/ (users, cohorts, teams, assessments),
-  coursework/ (courses, books, projects, capstones), and skill/
-(learning
-   records, core skills, weights) — so related tables are grouped by
-  domain instead of piled into one file.
-─────────────────────
-Folder: views/
-What responsibility dAPI endpoint handler,
-  one file per resource. Also contains sub-folders for GitHub OAuth and
-  GitHub integration logic.
-────────────────────────────────────────
-Folder: serializers/
-What responsibility does it own?: Controls how model instances are
-  translated to and from JSON. Keeps that conversion logic out of the
-  views.
-────────────────────────────────────────
-Folder: migrations/
-What responsibility does it own?: Tracks every schema change to the
-  database in order. Django requires this directory to know what has and
-  hasn't been applied to the database.
-────────────────────────────────────────
-Folder: fixtures/
-What responsibility does it own?: Holds JSON seed data files, one per
-  model, used to populate a fresh database with realistic data for
-  development and testing.
-────────────────────────────────────────
-Folder: tests/
-What responsibility does it own?: Contains all automated tests. Kept here
-  so Django's test runner can discover them automatically.
+|serializers/ |Controls how model instances are translated to and from JSON. Keeps that conversion logic out of the views.|
+
+|migrations/  |Tracks every schema change to the database in order. Django requires this directory to know what has and hasn't been applied to the database.|
+
+|fixtures/    |Holds JSON seed data files, one per model, used to populate a fresh database with realistic data for development and testing.|
+
+|tests/|Contains all automated tests. Kept here so Django's test runner can discover them automatically.|
 
 ## 3. What is the Pipfile?
 
@@ -106,7 +50,9 @@ When you run pipenv install, Pipenv reads this file, resolves all versions, and 
 | Package             | What functionality does it provide and why? |
 |---------------------|---------------------------------------------|
 | django              |Django is the web framework the entire API is built on. It provides the request/response cycle, the ORM that maps Python classes to database tables, the migration system, the admin panel, URL routing, and the manage.py command runner. Without Django there is no app. |
+
 | djangorestframework |Django alone handles HTML pages. Django REST Framework (DRF) extends it to build JSON APIs. It adds serializers (which you saw in LearningAPI/serializers/), class-based API views, authentication handling, and automatic HTTP method routing. Every endpoint in LearningAPI/views/ is built on top of DRF. |
+
 | django-allauth      |This handles third-party authentication — specifically GitHub OAuth in this project. When an instructor logs in via their GitHub account, django-allauth manages the OAuth redirect flow, exchanges the token with GitHub, and creates or links the local user account. It is pinned to 0.54.0 (not *) because its API changed significantly across versions, so the project locks to a known-good release. |
 
 ## 5. What does `decorators.py` do?
@@ -147,14 +93,11 @@ The API needs this data because almost everything else in the system is scoped t
 
 ## 8. Views vs. viewsets
 
-| Type | Example class | When to use it |
-|------|--------------|----------------|
-| View |notify.py|notify is a plain function decorated with @api_view(['POST']). It handles exactly one URL and one HTTP method. The entire function is the handler — read the request, do the work, return a response. There is no structure beyond that.
+| Type | Example class | About it | When to use it |
+|------|---------------|----------|----------------|
+| View |notify.py|notify is a plain function decorated with @api_view(['POST']). It handles exactly one URL and one HTTP method. The entire function is the handler — read the request, do the work, return a response. There is no structure beyond that.| When to choose this: one-off actions that don't map to a resource. Sending a Slack notification is not a "create, read, update, delete" operation on a database record — it is a single side-effect triggered by a POST. A plain view is the right fit because there is nothing to list, nothing to retrieve by ID, nothing to delete. |
 
-When to choose this: one-off actions that don't map to a resource. Sending a Slack notification is not a "create, read, update, delete" operation on a database record — it is a single side-effect triggered by a POST. A plain view is the right fit because there is nothing to list, nothing to retrieve by ID, nothing to delete. |
-| ViewSet |CohortViewSet in cohort_view.py |CohortViewSet is a class where each method (create, retrieve, list, update, destroy) maps to a standard HTTP operation on the /cohorts resource. DRF's router wires these up automatically: GET /cohorts/ calls list, POST /cohorts/ calls create, GET /cohorts/4/ calls retrieve, and so on. It also has @action methods for non-standard operations like assign and migrate, which get their own sub-URLs (/cohorts/4/assign/).
-
-When to choose this: any resource that has a full lifecycle. Cohorts get created, listed, retrieved, updated, and deleted. Bundling all of that into one class means the routing, permissions, and serializer stay co-located rather than scattered across multiple files. |
+| ViewSet |CohortViewSet in cohort_view.py |CohortViewSet is a class where each method (create, retrieve, list, update, destroy) maps to a standard HTTP operation on the /cohorts resource. DRF's router wires these up automatically: GET /cohorts/ calls list, POST /cohorts/ calls create, GET /cohorts/4/ calls retrieve, and so on. It also has @action methods for non-standard operations like assign and migrate, which get their own sub-URLs (/cohorts/4/assign/).| When to choose this: any resource that has a full lifecycle. Cohorts get created, listed, retrieved, updated, and deleted. Bundling all of that into one class means the routing, permissions, and serializer stay co-located rather than scattered across multiple files. |
 
 ## 9. What replaces templates and why?
 Django's Model-Template-View pattern
