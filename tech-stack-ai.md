@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Tech Stack (AI)
 
 ## 1. Run Questions
@@ -99,3 +100,6 @@ LearnOps is an education management platform built for Nashville Software School
 From a user's perspective, the platform lets instructors create and organize courses, assign students to cohorts, record and review assessment outcomes, leave notes on individual students, and view progress dashboards at a glance. It also integrates directly with GitHub and Slack, so activity that already happens in those tools — such as repository forks, team membership, and workspace communication — is visible and actionable inside the platform without switching contexts.
 
 The system is designed for two distinct roles: instructors and students. Instructors have staff-level access and interact with the full management interface — creating cohorts, scoring assessments, and tracking progress across the entire group. Students have a more limited view focused on their own dashboard, showing their current cohort, assessment status, and capstone information. The setup wizard reflects this separation by seeding the database with an instructor fixture on first run, establishing role-based access from the start.
+=======
+AI overview
+>>>>>>> upstream/main
