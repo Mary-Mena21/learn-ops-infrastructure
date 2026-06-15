@@ -19,15 +19,15 @@
 | Folder      | What responsibility does it own and why? |
 |-------------|------------------------------------------|
 |models/      |Defines the database schema. Split into three sub-packages — people/ (users, cohorts, teams, assessments), coursework/ (courses, books, projects, capstones), and skill/(learning records, core skills, weights) — so related tables are grouped by domain instead of piled into one file.|
-
+|                     |                                             |
 |views/       |What responsibility dAPI endpoint handler, one file per resource. Also contains sub-folders for GitHub OAuth and GitHub integration logic.|
-
+|                     |                                             |
 |serializers/ |Controls how model instances are translated to and from JSON. Keeps that conversion logic out of the views.|
-
+|                     |                                             |
 |migrations/  |Tracks every schema change to the database in order. Django requires this directory to know what has and hasn't been applied to the database.|
-
+|                     |                                             |
 |fixtures/    |Holds JSON seed data files, one per model, used to populate a fresh database with realistic data for development and testing.|
-
+|                     |                                             |
 |tests/     |Contains all automated tests. Kept here so Django's test runner can discover them automatically.|
 
 
@@ -117,7 +117,7 @@ Django's MTV pattern splits responsibilities into three layers:
 The pattern was designed for server-rendered web pages, where the server builds a complete HTML document and sends it to the browser.
 
 ---
-What takes the template's role here
+What takes the template's role here?
 
 In this project the serializer takes the template's role.
 
