@@ -6,7 +6,7 @@ setup:
 	./scripts/setup.sh
 
 doctor:
-	./scripts/setup.sh --doctor
+	./scripts/setup.sh --doctor # Check for common issues and provide troubleshooting steps
 
 teardown:
 	./scripts/teardown.sh
@@ -35,7 +35,7 @@ restart:
 	docker compose logs -f
 
 ps:
-	docker compose ps
+	docker compose ps # List containers
 
 reset:
-	docker compose down -v --remove-orphans
+	docker compose down -v --remove-orphans # Remove volumes and orphan containers to ensure a clean slate
