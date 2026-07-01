@@ -148,6 +148,7 @@ erDiagram
         boolean is_staff
     }
 ```
+
 ```mermaid
 erDiagram
     %% ===== people app =====
@@ -302,6 +303,7 @@ erDiagram
         int tag_id FK
     }
 ```
+
 ```mermaid
 erDiagram
     %% ===== coursework app =====
@@ -416,6 +418,7 @@ erDiagram
         string level_name
     }
 ```
+
 ```mermaid
 erDiagram
     %% ===== skill app =====
@@ -462,6 +465,7 @@ erDiagram
         int tier
     }
 ```
+
 ```mermaid
 erDiagram
     %% ===== root =====
@@ -478,6 +482,7 @@ erDiagram
     Cohort ||--o| CohortInfo : cohort
     NssUser ||--o| StudentPersonality : student
 ```
+
 ```mermaid
     %% -- coursework FKs --
 erDiagram
@@ -501,6 +506,7 @@ erDiagram
     NssUser ||--o{ StudentProject : student
     Project ||--o{ StudentProject : project
 ```
+
 ```mermaid
 erDiagram
     %% -- people FKs --
@@ -535,6 +541,7 @@ erDiagram
     Tag ||--o{ StudentTag : tag
     Cohort ||--o{ StudentTeam : cohort
 ```
+
 ```mermaid
 erDiagram
     %% -- skill FKs --
@@ -548,4 +555,5 @@ erDiagram
     LearningRecord ||--o{ LearningRecordEntry : record
     NssUser ||--o{ LearningRecordEntry : instructor
 ```
+
 How to read the notation: || = exactly one, o| = zero-or-one (nullable FK), o{ = zero-or-many.
