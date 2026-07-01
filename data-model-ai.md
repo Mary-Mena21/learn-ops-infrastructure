@@ -2,11 +2,6 @@
 
 ## 1. Database Diagram
 
-
-# Data Model (AI)
-
-## 1. Database Diagram
-
 ```mermaid
 erDiagram
     User ||--|| NssUser : "extends"
@@ -46,7 +41,7 @@ erDiagram
     ProposalStatus ||--o{ CapstoneTimeline : "status"
     LightningExercise ||--o{ LightningTag : "lightningtags"
     Tag ||--o{ LightningTag : "tag"
-
+```
 ## 2. Database Info
 
 **Database type: PostgreSQL**
@@ -142,8 +137,8 @@ One Course contains many Books, but each Book belongs to exactly one Course. Def
 A student can be on many teams, and a team has many students. Django manages this through the explicit junction model NSSUserTeam. Defined in LearningAPI/models/people/student_team.py:355.
 
 
+```mermaid
 erDiagram
-
     %% ===== Django's built-in auth user (external, referenced by NssUser) =====
     User {
         string username
@@ -465,7 +460,9 @@ erDiagram
     Tag {
         string name
         }
-
+```
+```mermaid
+erDiagram
     %% ================= RELATIONSHIPS =================
 
     %% -- OneToOneField --
@@ -536,5 +533,5 @@ erDiagram
     LearningWeight ||--o{ LearningRecord : weight
     LearningRecord ||--o{ LearningRecordEntry : record
     NssUser ||--o{ LearningRecordEntry : instructor
-
+```
 How to read the notation: || = exactly one, o| = zero-or-one (nullable FK), o{ = zero-or-many.
