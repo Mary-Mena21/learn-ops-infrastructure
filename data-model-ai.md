@@ -157,7 +157,10 @@ erDiagram
         string slack_handle
         string github_handle
     }
+```
 
+```mermaid
+erDiagram
     Cohort {
         string name
         string slack_channel
@@ -167,7 +170,10 @@ erDiagram
         date break_end_date
         boolean active
     }
+```
 
+```mermaid
+erDiagram
     CohortInfo {
         int cohort_id FK
         string student_organization_url
@@ -177,7 +183,10 @@ erDiagram
         string server_course_url
         string zoom_url
     }
+```
 
+```mermaid
+erDiagram
     CohortEvent {
         int cohort_id FK
         string event_name
@@ -187,50 +196,74 @@ erDiagram
         datetime created_at
         datetime updated_at
     }
+```
 
+```mermaid
+erDiagram
     CohortEventType {
         string description
         string color
     }
+```
 
+```mermaid
+erDiagram
     CohortGithubProject {
         int cohort_id FK
         string project_name
         boolean assessment
         string project_url
     }
+```
 
+```mermaid
+erDiagram
     NssUserCohort {
         int nss_user_id FK
         int cohort_id FK
         boolean is_github_org_member
     }
+```
 
+```mermaid
+erDiagram
     StudentTeam {
         string group_name
         int cohort_id FK
         boolean sprint_team
         string slack_channel
     }
+```
 
+```mermaid
+erDiagram
     NSSUserTeam {
         int team_id FK
         int student_id FK
     }
+```
 
+```mermaid
+erDiagram
     GroupProjectRepository {
         int team_id FK
         int project_id FK
         string repository
     }
+```
 
+```mermaid
+erDiagram
     OneOnOneNote {
         int student_id FK
         int coach_id FK
         string notes
         datetime session_date
     }
+```
 
+```mermaid
+erDiagram
     Opportunity {
         int senior_instructor_id FK
         int cohort_id FK
@@ -238,25 +271,37 @@ erDiagram
         date start_date
         string message
     }
+```
 
+```mermaid
+erDiagram
     OpportunityUser {
         int student_id FK
         int opportunity_id FK
         date date_created
     }
+```
 
+```mermaid
+erDiagram
     Assessment {
         string name
         string source_url
         int book_id FK
         string type
     }
+```
 
+```mermaid
+erDiagram
     AssessmentObjective {
         int assessment_id FK
         int objective_id FK
     }
+```
 
+```mermaid
+erDiagram
     StudentAssessment {
         int student_id FK
         int assessment_id FK
@@ -265,17 +310,26 @@ erDiagram
         string url
         date date_created
     }
+```
 
+```mermaid
+erDiagram
     StudentAssessmentStatus {
         string status
     }
+```
 
+```mermaid
+erDiagram
     StudentMentor {
         int student_id FK
         int mentor_id FK
         int capstone_id FK
     }
+```
 
+```mermaid
+erDiagram
     StudentNote {
         int student_id FK
         int coach_id FK
@@ -283,11 +337,17 @@ erDiagram
         string note
         datetime created_on
     }
+```
 
+```mermaid
+erDiagram
     StudentNoteType {
         string label
     }
+```
 
+```mermaid
+erDiagram
     StudentPersonality {
         int student_id FK
         string briggs_myers_type
@@ -297,7 +357,10 @@ erDiagram
         int bfi_neuroticism
         int bfi_openness
     }
+```
 
+```mermaid
+erDiagram
     StudentTag {
         int student_id FK
         int tag_id FK
