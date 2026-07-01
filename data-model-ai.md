@@ -4,8 +4,8 @@
 
 Mermaid diagrams are embedded directly in markdown using a fenced code block with the `mermaid` language tag:
 
-```mermaid
 erDiagram
+
     User ||--|| NssUser : "extends"
     NssUser ||--o| StudentPersonality : "personality"
     NssUser ||--o{ NssUserCohort : "assigned_cohorts"
@@ -45,7 +45,7 @@ erDiagram
     CapstoneTimeline }o--|| ProposalStatus : "status"
     LightningExercise ||--o{ LightningTag : "lightningtags"
     LightningTag }o--|| Tag : "tag"
-```
+
 
 ## 2. Database Info
 
@@ -141,35 +141,9 @@ One Course contains many Books, but each Book belongs to exactly one Course. Def
 
 A student can be on many teams, and a team has many students. Django manages this through the explicit junction model NSSUserTeam. Defined in LearningAPI/models/people/student_team.py:355.
 
-```mermaid
+
 erDiagram
-    %% ===== Django's built-in auth user (external, referenced by NssUser) =====
-    User {
-        string username
-        string first_name
-        string last_name
-        string email
-        boolean is_staff
-    }
 
-    %% ===== people app =====
-    NssUser {
-- Meaning: each NssUser extends exactly one Django auth User — a 1:1 link between the built-in user table and this app's extra profile data.
-
-One-to-many — ForeignKey
-- File: LearningAPI/models/skill/core_skill_record.py:10
-- Model: CoreSkillRecord
-- Field: student = models.ForeignKey(NssUser, on_delete=models.CASCADE, related_name='core_skills')
-- Meaning: one NssUser can s (their skill-levelhistory), but each record points to a single student. related_name='core_skills' lets you go nssuser.core_skills.all().
-
-Many-to-many — ManyToManyField                                                     - File: LearningAPI/models/
-- Model: StudentTeam
-- Field: students = models.ManyToManyField("NSSUser", through="NSSUserTeam")
-- Meaning: a team has many students and a student can belong to many teams. It uses through="NSSUserTeam" — an explicit join-table model rather than Django's          auto-generated one, usuallys its own extra fields.
-
-
-```mermaid
-erDiagram
     %% ===== Django's built-in auth user (external, referenced by NssUser) =====
     User {
         string username
@@ -453,12 +427,12 @@ erDiagram
         int skill_id FK
         int level                                                              date created_on
     }
-                                                                           CoreSkillRecordEntry {
+        CoreSkillRecordEntry {
         int record_id FK                                                       string note
         date recorded_on
         int instructor_id FK
     }
-                                                                           LearningRecord {
+        LearningRecord {
         int student_id FK
         int weight_id FK
         boolean achieved
@@ -544,12 +518,3 @@ erDiagram
     NssUser ||--o{ LearningRecordEntry : instructor
 
 How to read the notation: || = exactly one, o| = zero-or-one (nullable FK), o{ = zero-or-many.
-
-Scope: only LearningAPI has real models — 46 files across coursework/, people/, skill/, plus root tag.py. LogViewer has none of its own.
-
-Why you don't see }o--o{ (many-to-many) lines: both ManyToManyFields in(Assessment.objectives, Stu explicit through model, soDjango doesn't build its own join table — the real schema is just two ordinary FKs on that through model (AssessmentWeight, NSSUserTeam). The diagram shows that decomposed form since it matches the actual tables.
-
-On the duplicate related_name flag — I checked this myself since the exraised it, and it's only ha
-- Opportunity.senior_instructor → NssUser and OpportunityUser.student → NssUser both use related_name="coaching_opportunities" (people/opportunities.py:12, people/opportunity_user.py:th target NssUser, so Djangowould try to create two reverse accessors named nssuser_instance.coaching_opportunities, which triggers system-check error E304.
-- Opportunity.cohort → Cohounity → Opportunity both userelated_name="ta_opportunities", but they point at different target models (Cohort vs Opportunity), so there's no actual clash there — the reverse accessors land on different classes.
-```
