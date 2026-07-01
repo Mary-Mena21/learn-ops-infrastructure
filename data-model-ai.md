@@ -141,7 +141,7 @@ One Course contains many Books, but each Book belongs to exactly one Course. Def
 
 A student can be on many teams, and a team has many students. Django manages this through the explicit junction model NSSUserTeam. Defined in LearningAPI/models/people/student_team.py:355.
 
-mermaid
+```mermaid
 erDiagram
     %% ===== Django's built-in auth user (external, referenced by NssUser) =====
     User {

@@ -6,7 +6,7 @@ Find the host, port, database name, username, and password.
 Look in the environment files and docker-compose configuration.
 Tell me which file each value comes from.
 
-I am working in the ~/workspace/lms/learn-ops-api directory. This is a Django project. Please find the database connection details including engine, name, user, password, host, and port. Look in settings.py and any .env files or environment variable templates. Show me the exact file paths where you found each value.
+"I am working in the ~/workspace/lms/learn-ops-api directory. This is a Django project. Please find the database connection details including engine, name, user, password, host, and port. Look in settings.py and any .env files or environment variable templates. Show me the exact file paths where you found each value."
 
 ## 2. Identify the Database Type
 What database engine does this application use?
