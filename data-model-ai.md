@@ -360,12 +360,14 @@ erDiagram
     }
 
     CohortCourse {
-        int cohort_id FK                                                       int course_id FK
+        int cohort_id FK
+        int course_id FK
         boolean active
         int index
     }
 
-    StudentProject {                                                           int student_id FK
+    StudentProject {
+        int student_id FK
         int project_id FK
         date date_created
     }
@@ -388,7 +390,8 @@ erDiagram
         string learner_github_id
         string learner_name
         string cohort_type
-        int cohort_number                                                  }
+        int cohort_number
+        }
 
     LearningObjective {
         string swbat
@@ -407,7 +410,8 @@ erDiagram
 
     ObjectiveTag {
         int objective_id FK
-        int tag_id FK                                                      }
+        int tag_id FK
+    }
 
     TaxonomyLevel {
         string level_name
@@ -419,19 +423,24 @@ erDiagram
         int assessment_id FK
     }
 
-    CoreSkill {                                                                string label
+    CoreSkill {
+        string label
     }
 
     CoreSkillRecord {
         int student_id FK
         int skill_id FK
-        int level                                                              date created_on
+        int level
+        date created_on
     }
+
         CoreSkillRecordEntry {
-        int record_id FK                                                       string note
+        int record_id FK
+        string note
         date recorded_on
         int instructor_id FK
     }
+
         LearningRecord {
         int student_id FK
         int weight_id FK
@@ -450,10 +459,12 @@ erDiagram
         string label
         int weight
         int tier
-    }                                                                  
+    }
+
     %% ===== root =====
     Tag {
-        string name                                                        }
+        string name
+        }
 
     %% ================= RELATIONSHIPS =================
 
@@ -467,11 +478,14 @@ erDiagram
     NssUser ||--o{ Capstone : student
     Course ||--o{ Capstone : course
     Capstone ||--o{ CapstoneTimeline : capstone
-    ProposalStatus ||--o{ CapstoneTimeline : status                        Cohort ||--o{ CohortCou
-    Course ||--o{ CohortCourse : course                                    TaxonomyLevel ||--o{ Le
+    ProposalStatus ||--o{ CapstoneTimeline : status
+    Cohort ||--o{ CohortCou
+    Course ||--o{ CohortCourse : course
+    TaxonomyLevel ||--o{ Le
     LightningExercise ||--o{ LightningTag : exercise
     Tag ||--o{ LightningTag : tag
-    LearningObjective ||--o{ ObjectiveTag : objective                      Tag ||--o{ ObjectiveTag
+    LearningObjective ||--o{ ObjectiveTag : objective
+    Tag ||--o{ ObjectiveTag
     Book ||--o{ Project : book
     NssUser ||--o{ ProjectNote : user
     Project ||--o{ ProjectNote : project
@@ -484,17 +498,21 @@ erDiagram
     Book ||--o{ Assessment : book
     Assessment ||--o{ AssessmentObjective : assessment
     LearningObjective ||--o{ AssessmentObjective : objective
-    Cohort ||--o{ CohortEvent : cohort                                     CohortEventType ||--o{
+    Cohort ||--o{ CohortEvent : cohort
+    CohortEventType ||--o{
     Cohort ||--o{ CohortGithubProject : cohort
     StudentTeam ||--o{ GroupProjectRepository : team
     Project ||--o{ GroupProjectRepository : project
     NssUser ||--o{ NssUserCohort : nss_user
-    Cohort ||--o{ NssUserCohort : cohort                                   StudentTeam ||--o{ NSSU
+    Cohort ||--o{ NssUserCohort : cohort
+    StudentTeam ||--o{ NSSU
     NssUser ||--o{ NSSUserTeam : student
-    NssUser ||--o{ OneOnOneNote : student                                  NssUser ||--o{ OneOnOne    NssUser ||--o{ Opportun
+    NssUser ||--o{ OneOnOneNote : student
+    NssUser ||--o{ OneOnOne    NssUser ||--o{ Opportun
     Cohort ||--o{ Opportunity : cohort
     NssUser ||--o{ OpportunityUser : student
-    Opportunity ||--o{ OpportunityUser : opportunity                       NssUser ||--o{ StudentA
+    Opportunity ||--o{ OpportunityUser : opportunity
+    NssUser ||--o{ StudentA
     Assessment ||--o{ StudentAssessment : assessment
     StudentAssessmentStatus ||--o{ StudentAssessment : status
     NssUser o|--o{ StudentAssessment : instructor
@@ -508,10 +526,12 @@ erDiagram
     Tag ||--o{ StudentTag : tag
     Cohort ||--o{ StudentTeam : cohort
 
-    %% -- skill FKs --                                                     LearningWeight ||--o{ A    Assessment ||--o{ Asses
+    %% -- skill FKs --
+    LearningWeight ||--o{ A    Assessment ||--o{ Asses
     NssUser ||--o{ CoreSkillRecord : student
     CoreSkill ||--o{ CoreSkillRecord : skill
-    CoreSkillRecord ||--o{ CoreSkillRecordEntry : record                   NssUser ||--o{ CoreSkil
+    CoreSkillRecord ||--o{ CoreSkillRecordEntry : record
+    NssUser ||--o{ CoreSkil
     NssUser ||--o{ LearningRecord : student
     LearningWeight ||--o{ LearningRecord : weight
     LearningRecord ||--o{ LearningRecordEntry : record
