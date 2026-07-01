@@ -148,6 +148,8 @@ erDiagram
         boolean is_staff
     }
 ```
+```mermaid
+erDiagram
     %% ===== people app =====
     NssUser {
         int user_id FK
@@ -299,7 +301,9 @@ erDiagram
         int student_id FK
         int tag_id FK
     }
-
+```
+```mermaid
+erDiagram
     %% ===== coursework app =====
     Course {
         string name
@@ -411,7 +415,9 @@ erDiagram
     TaxonomyLevel {
         string level_name
     }
-
+```
+```mermaid
+erDiagram
     %% ===== skill app =====
     AssessmentWeight {
         int weight_id FK
@@ -455,23 +461,25 @@ erDiagram
         int weight
         int tier
     }
-
+```
+```mermaid
+erDiagram
     %% ===== root =====
     Tag {
         string name
         }
 ```
-    %% ================= RELATIONSHIPS =================
 
-    %% -- OneToOneField --
 ```mermaid
 erDiagram
+    %% ================= RELATIONSHIPS =================
+    %% -- OneToOneField --
     User ||--o| NssUser : user
     Cohort ||--o| CohortInfo : cohort
     NssUser ||--o| StudentPersonality : student
 ```
-    %% -- coursework FKs --
 ```mermaid
+    %% -- coursework FKs --
 erDiagram
     Course ||--o{ Book : course
     NssUser ||--o{ Capstone : student
@@ -493,9 +501,9 @@ erDiagram
     NssUser ||--o{ StudentProject : student
     Project ||--o{ StudentProject : project
 ```
-    %% -- people FKs --
 ```mermaid
 erDiagram
+    %% -- people FKs --
     Book ||--o{ Assessment : book
     Assessment ||--o{ AssessmentObjective : assessment
     LearningObjective ||--o{ AssessmentObjective : objective
@@ -527,9 +535,9 @@ erDiagram
     Tag ||--o{ StudentTag : tag
     Cohort ||--o{ StudentTeam : cohort
 ```
-    %% -- skill FKs --
 ```mermaid
 erDiagram
+    %% -- skill FKs --
     LearningWeight ||--o{ A    Assessment ||--o{ Asses
     NssUser ||--o{ CoreSkillRecord : student
     CoreSkill ||--o{ CoreSkillRecord : skill
