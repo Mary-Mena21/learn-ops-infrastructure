@@ -3,8 +3,12 @@
 ## 1. Database Diagram
 
 
-erDiagram
+# Data Model (AI)
 
+## 1. Database Diagram
+
+```mermaid
+erDiagram
     User ||--|| NssUser : "extends"
     NssUser ||--o| StudentPersonality : "personality"
     NssUser ||--o{ NssUserCohort : "assigned_cohorts"
@@ -42,7 +46,6 @@ erDiagram
     ProposalStatus ||--o{ CapstoneTimeline : "status"
     LightningExercise ||--o{ LightningTag : "lightningtags"
     Tag ||--o{ LightningTag : "tag"
-
 
 ## 2. Database Info
 
