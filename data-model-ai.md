@@ -2,9 +2,8 @@
 
 ## 1. Database Diagram
 
-```mermaid
-erDiagram
 
+erDiagram
     User ||--|| NssUser : "extends"
     NssUser ||--o| StudentPersonality : "personality"
     NssUser ||--o{ NssUserCohort : "assigned_cohorts"
@@ -20,20 +19,18 @@ erDiagram
     Cohort ||--o{ CohortCourse : "courses"
     Cohort ||--o{ StudentTeam : "teams"
     Cohort ||--o{ CohortEvent : "events"
-    CohortEvent }o--|| CohortEventType : "event_typ
+    CohortEventType ||--o{ CohortEvent : "event_type"
     Course ||--o{ CohortCourse : "cohorts"
     Course ||--o{ Book : "books"
     Book ||--o{ Project : "child_projects"
     Book ||--o{ Assessment : "assessments"
     Project ||--o{ StudentProject : "students"
     Project ||--o{ ProjectTag : "projecttags"
-    ProjectTag }o--|| Tag : "tag"
+    Tag ||--o{ ProjectTag : "tag"
     Assessment ||--o{ StudentAssessment : "students"
-    Assessment ||--o{ AssessmentWeight : "weight_assignments"
-    Assessment ||--o{ AssessmentObjective : "objectives"
-    AssessmentWeight }o--|| LearningWeight : "weight"
-    AssessmentObjective }o--|| LearningObjective :
-    LearningObjective }o--|| TaxonomyLevel : "bloom_level"
+    LearningWeight ||--o{ AssessmentWeight : "weight_assignments"
+    LearningObjective ||--o{ AssessmentObjective : "objectives"
+    TaxonomyLevel ||--o{ LearningObjective : "bloom_level"
     LearningWeight ||--o{ LearningRecord : "records"
     LearningRecord ||--o{ LearningRecordEntry : "entries"
     CoreSkill ||--o{ CoreSkillRecord : "records"
@@ -41,9 +38,9 @@ erDiagram
     StudentTeam ||--o{ NSSUserTeam : "students"
     StudentTeam ||--o{ GroupProjectRepository : "repositories"
     Capstone ||--o{ CapstoneTimeline : "statuses"
-    CapstoneTimeline }o--|| ProposalStatus : "status"
+    ProposalStatus ||--o{ CapstoneTimeline : "status"
     LightningExercise ||--o{ LightningTag : "lightningtags"
-    LightningTag }o--|| Tag : "tag"
+    Tag ||--o{ LightningTag : "tag"
 
 
 ## 2. Database Info
