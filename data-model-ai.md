@@ -147,7 +147,7 @@ erDiagram
         string email
         boolean is_staff
     }
-
+```
     %% ===== people app =====
     NssUser {
         int user_id FK
@@ -461,16 +461,18 @@ erDiagram
         string name
         }
 ```
-```mermaid
-erDiagram
     %% ================= RELATIONSHIPS =================
 
     %% -- OneToOneField --
+```mermaid
+erDiagram
     User ||--o| NssUser : user
     Cohort ||--o| CohortInfo : cohort
     NssUser ||--o| StudentPersonality : student
-
+```
     %% -- coursework FKs --
+```mermaid
+erDiagram
     Course ||--o{ Book : course
     NssUser ||--o{ Capstone : student
     Course ||--o{ Capstone : course
@@ -490,8 +492,10 @@ erDiagram
     Tag ||--o{ ProjectTag : tag
     NssUser ||--o{ StudentProject : student
     Project ||--o{ StudentProject : project
-
+```
     %% -- people FKs --
+```mermaid
+erDiagram
     Book ||--o{ Assessment : book
     Assessment ||--o{ AssessmentObjective : assessment
     LearningObjective ||--o{ AssessmentObjective : objective
@@ -522,8 +526,10 @@ erDiagram
     NssUser ||--o{ StudentTag : student
     Tag ||--o{ StudentTag : tag
     Cohort ||--o{ StudentTeam : cohort
-
+```
     %% -- skill FKs --
+```mermaid
+erDiagram
     LearningWeight ||--o{ A    Assessment ||--o{ Asses
     NssUser ||--o{ CoreSkillRecord : student
     CoreSkill ||--o{ CoreSkillRecord : skill
