@@ -2,8 +2,7 @@
 
 ## 1. Database Diagram
 
-Mermaid diagrams are embedded directly in markdown using a fenced code block with the `mermaid` language tag:
-
+```mermaid
 erDiagram
 
     User ||--|| NssUser : "extends"
@@ -141,7 +140,7 @@ One Course contains many Books, but each Book belongs to exactly one Course. Def
 
 A student can be on many teams, and a team has many students. Django manages this through the explicit junction model NSSUserTeam. Defined in LearningAPI/models/people/student_team.py:355.
 
-
+```mermaid
 erDiagram
 
     %% ===== Django's built-in auth user (external, referenced by NssUser) =====
